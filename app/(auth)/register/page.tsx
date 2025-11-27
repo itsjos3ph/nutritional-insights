@@ -3,8 +3,8 @@
 import { useState } from 'react';
 import { redirect } from 'next/navigation';
 import { useAuthContext } from '@/app/_context/AuthContext';
-export default function Login() {
-	const { login } = useAuthContext();
+export default function Register() {
+	const { register } = useAuthContext();
 
 	const [formData, setFormData] = useState<FormData>({
 		password: '',
@@ -21,17 +21,17 @@ export default function Login() {
 		e.preventDefault();
 		console.log('Form submitted:', formData);
 
-		const status = await login(formData.email, formData.password);
+		const status = await register(formData.email, formData.password);
 
 		if (status) {
-			redirect('/');
+			redirect('/login');
 		} else {
-			alert('There was a problem in logging you in!');
+			alert('There was a problem in registering you!');
 		}
 	}
 
-	async function handleRegister() {
-		redirect('/register');
+	async function handleLogin() {
+		redirect('/login');
 	}
 
 	async function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -45,9 +45,9 @@ export default function Login() {
 	return (
 		<div>
 			<div className="flex flex-col items-center justify-center h-screen">
-				{/* FORM */}
 				<div className="flex flex-col items-center gap-2 pt-4 bg-sky-500 rounded-xl">
-					<p>LOGIN PAGE</p>
+					<p>REGISTRATION PAGE</p>
+					{/* FORM */}
 					<form
 						className="flex flex-col items-center gap-5 p-4"
 						onSubmit={handleSubmit}
@@ -88,7 +88,7 @@ export default function Login() {
 								<input
 									className="bg-yellow-500 rounded-lg p-3"
 									type="submit"
-									value="Login"
+									value="Register"
 								/>
 							</div>
 
@@ -97,8 +97,8 @@ export default function Login() {
 								<input
 									className="bg-white rounded-lg p-3"
 									type="button"
-									value="Register"
-									onClick={handleRegister}
+									value="Login"
+									onClick={handleLogin}
 								/>
 							</div>
 						</div>

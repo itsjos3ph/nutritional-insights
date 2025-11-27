@@ -1,10 +1,14 @@
 'use client';
 
 import Image from 'next/image';
+import { redirect } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { useAuthContext } from './_context/AuthContext';
 import DataTable from 'react-data-table-component';
 
 export default function Home() {
+	const { verifyLogin } = useAuthContext();
+
 	function capitalizeFirstLetter(val: string) {
 		return String(val).charAt(0).toUpperCase() + String(val).slice(1);
 	}
@@ -62,6 +66,32 @@ export default function Home() {
 
 		setDietType(e.target.value);
 	};
+
+	// CHECK IF LOGGED IN
+	useEffect(() => {
+		async function start() {
+			let redirectPath = '';
+			try {
+				const email = localStorage.getItem('Z-USER-ACCOUNT');
+				if (email) {
+					let status = await verifyLogin(email);
+					if (!status) {
+						redirectPath = '/login';
+					}
+				} else {
+					redirectPath = '/login';
+				}
+			} catch (e: any) {
+				console.log(e);
+			} finally {
+				if (redirectPath) {
+					redirect(redirectPath);
+				}
+			}
+		}
+
+		start();
+	}, []);
 
 	useEffect(() => {
 		fetch('https://nutritional-functions.azurewebsites.net/api/getall')
