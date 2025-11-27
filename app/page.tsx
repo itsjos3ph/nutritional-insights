@@ -55,7 +55,9 @@ export default function Home() {
 		if (e.target.value == 'all') {
 			setFData(data);
 		} else {
-			setFData(data.filter((entry) => entry.Diet_type == e.target.value));
+			setFData(
+				data.filter((entry: any) => entry.Diet_type == e.target.value)
+			);
 		}
 
 		setDietType(e.target.value);
