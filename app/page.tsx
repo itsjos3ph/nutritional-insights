@@ -5,6 +5,8 @@ import { redirect } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useAuthContext } from './_context/AuthContext';
 import DataTable from 'react-data-table-component';
+import Header from './_components/Header';
+import Footer from './_components/Footer';
 
 export default function Home() {
 	const { verifyLogin } = useAuthContext();
@@ -110,9 +112,7 @@ export default function Home() {
 
 	return (
 		<div className="bg-gray-100">
-			<header className="bg-blue-600 p-4 text-white">
-				<h1 className="text-3xl font-semibold">Nutritional Insights</h1>
-			</header>
+			<Header></Header>
 
 			<main className="container mx-auto p-6">
 				<section className="mb-8">
@@ -177,9 +177,7 @@ export default function Home() {
 				</section>
 			</main>
 
-			<footer className="bg-blue-600 p-4 text-white text-center mt-10">
-				<p>&copy; 2025 Nutritional Insights. All Rights Reserved.</p>
-			</footer>
+			<Footer></Footer>
 		</div>
 	);
 }
