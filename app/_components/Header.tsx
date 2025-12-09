@@ -5,12 +5,14 @@ import { redirect } from 'next/navigation';
 export default function Header() {
 	const { logout } = useAuthContext();
 	function getEmail() {
-		const email = localStorage.getItem('Z-USER-ACCOUNT');
+		const email = localStorage.getItem('Z-USER-ACCOUNT')
+			? localStorage.getItem('Z-USER-ACCOUNT')
+			: null;
 		return email;
 	}
 
 	async function handleLogoutClick() {
-		const email = localStorage.getItem('Z-USER-ACCOUNT');
+		const email = localStorage.setItem('Z-USER-ACCOUNT', '');
 		const status = await logout(email!);
 		if (status) {
 			redirect('/login');

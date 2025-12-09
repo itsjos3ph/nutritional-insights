@@ -96,7 +96,7 @@ export default function Home() {
 	}, []);
 
 	useEffect(() => {
-		fetch('https://nutritional-functions.azurewebsites.net/api/getall')
+		fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/getall`)
 			.then((response) => {
 				if (!response.ok) {
 					throw new Error(`HTTP error! status: ${response.status}`);
@@ -125,7 +125,9 @@ export default function Home() {
 							<p className="text-sm text-gray-600">
 								Average macronutrient content by diet type.
 							</p>
-							<img src="https://nutritional-functions.azurewebsites.net/api/images/barchart" />
+							<img
+								src={`${process.env.NEXT_PUBLIC_SERVER_URL}/api/images/barchart`}
+							/>
 						</div>
 
 						<div className="bg-white p-4 shadow-lg rounded-lg">
@@ -133,7 +135,9 @@ export default function Home() {
 							<p className="text-sm text-gray-600">
 								Nutrient relationships (e.g., protein vs carbs).
 							</p>
-							<img src="https://nutritional-functions.azurewebsites.net/api/images/scatterplot" />
+							<img
+								src={`${process.env.NEXT_PUBLIC_SERVER_URL}/api/images/scatterplot`}
+							/>
 						</div>
 
 						<div className="bg-white p-4 shadow-lg rounded-lg">
@@ -141,7 +145,9 @@ export default function Home() {
 							<p className="text-sm text-gray-600">
 								Nutrient correlations.
 							</p>
-							<img src="https://nutritional-functions.azurewebsites.net/api/images/heatmap" />
+							<img
+								src={`${process.env.NEXT_PUBLIC_SERVER_URL}/api/images/heatmap`}
+							/>
 						</div>
 					</div>
 				</section>
