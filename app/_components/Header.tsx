@@ -1,18 +1,23 @@
 'use client';
 import { useAuthContext } from '../_context/AuthContext';
 import { redirect } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 export default function Header() {
 	const { logout } = useAuthContext();
-	function getEmail() {
+	const [email, setEmail] = useState<null | string>(null);
+
+	useEffect(() => {
 		const email = localStorage.getItem('Z-USER-ACCOUNT')
 			? localStorage.getItem('Z-USER-ACCOUNT')
 			: null;
-		return email;
-	}
+
+		setEmail(email);
+
+		return () => {};
+	}, []);
 
 	async function handleLogoutClick() {
-		const email = localStorage.setItem('Z-USER-ACCOUNT', '');
 		const status = await logout(email!);
 		if (status) {
 			redirect('/login');
@@ -30,7 +35,7 @@ export default function Header() {
 					</h1>
 				</div>
 				<div className="flex items-center gap-2">
-					<p>Hello, {getEmail()}</p> |{' '}
+					<p>Hello, {email}</p> |{' '}
 					<button
 						onClick={handleLogoutClick}
 						className="p-2 bg-red-500 rounded-md cursor-pointer"
