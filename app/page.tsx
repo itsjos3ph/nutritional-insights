@@ -54,19 +54,41 @@ export default function Home() {
 	const [data, setData] = useState([]);
 	const [fData, setFData] = useState([]);
 	const [dietType, setDietType] = useState('all');
+	const [searchTerm, setSearchTerm] = useState('');
 
-	const handleDietChange = (e) => {
-		console.log(dietType);
+	const applyFilters = (diet: string, search: string) => {
+		let filtered = data;
 
-		if (e.target.value == 'all') {
-			setFData(data);
-		} else {
-			setFData(
-				data.filter((entry: any) => entry.Diet_type == e.target.value)
-			);
+		// Apply diet type filter
+		if (diet !== 'all') {
+			filtered = filtered.filter((entry: any) => entry.Diet_type === diet);
 		}
 
-		setDietType(e.target.value);
+		// Apply search filter
+		if (search.trim() !== '') {
+			const searchLower = search.toLowerCase();
+			filtered = filtered.filter((entry: any) => {
+				return (
+					entry.Recipe_name?.toLowerCase().includes(searchLower) ||
+					entry.Cuisine_type?.toLowerCase().includes(searchLower) ||
+					entry.Diet_type?.toLowerCase().includes(searchLower)
+				);
+			});
+		}
+
+		setFData(filtered);
+	};
+
+	const handleDietChange = (e) => {
+		const newDietType = e.target.value;
+		setDietType(newDietType);
+		applyFilters(newDietType, searchTerm);
+	};
+
+	const handleSearchChange = (e) => {
+		const newSearchTerm = e.target.value;
+		setSearchTerm(newSearchTerm);
+		applyFilters(dietType, newSearchTerm);
 	};
 
 	// CHECK IF LOGGED IN
@@ -169,6 +191,14 @@ export default function Home() {
 							<option value="mediterranean">Mediterranean</option>
 							<option value="dash">Dash</option>
 						</select>
+
+						<input
+							type="text"
+							placeholder="Search recipes, cuisine, or diet..."
+							value={searchTerm}
+							onChange={handleSearchChange}
+							className="p-2 border rounded w-full sm:flex-1"
+						/>
 					</div>
 				</section>
 
